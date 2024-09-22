@@ -1,4 +1,5 @@
 import 'package:agenda_flutter/model/Contato.dart';
+import 'package:agenda_flutter/screens/alterarContato.dart';
 import 'package:agenda_flutter/screens/cadastroContatos.dart';
 import 'package:agenda_flutter/widget/contatoCard.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +51,20 @@ class _ListacontatosState extends State<Listacontatos> {
             nome: contato.nome,
             telefone: contato.telefone,
             email: contato.email,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AlterarContato(
+                    nome: contato.nome,
+                    email: contato.email,
+                    telefone: contato.telefone,
+                  ),
+                ),
+              ).then((_) {
+                _carregarContatos(); // Adicione esta linha para recarregar os contatos
+              });
+            },
           );
         },
       ),
@@ -62,7 +77,7 @@ class _ListacontatosState extends State<Listacontatos> {
               context,
               MaterialPageRoute(builder: (context) => Cadastrocontatos()),
             ).then((_) {
-              _carregarContatos(); 
+              _carregarContatos();
             });
           },
           child: Icon(

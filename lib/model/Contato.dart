@@ -81,4 +81,36 @@ class Contato {
 
     await prefs.setStringList('contatos', contatosJson);
   }
+
+  static Future<void> alterarContato(String nomeAntigo, Contato contatoAtualizado) async {
+  try {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+    List<Contato> contatos = await carregarContatos();
+
+    // Encontrar o índice do contato a ser alterado
+    int index = contatos.indexWhere((contato) => contato.nome == nomeAntigo);
+
+    if (index != -1) {
+      // Substituir o contato existente pelo novo
+      contatos[index] = contatoAtualizado;
+
+      // Ordenar a lista após a alteração
+      contatos.sort((a, b) => a.nome.compareTo(b.nome));
+
+      // Salvar a lista de contatos atualizada
+      List<String> contatosJson = contatos.map((contato) {
+        return jsonEncode(contato.toJson());
+      }).toList();
+
+      await prefs.setStringList('contatos', contatosJson);
+    } else {
+      print('Contato não encontrado com o nome: $nomeAntigo');
+    }
+  } catch (e) {
+    print('Erro ao alterar contato: $e');
+  }
+}
+
+
 }
