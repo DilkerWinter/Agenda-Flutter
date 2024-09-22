@@ -1,9 +1,29 @@
 import 'package:agenda_flutter/model/Contato.dart';
 import 'package:agenda_flutter/screens/cadastroContatos.dart';
+import 'package:agenda_flutter/widget/contatoCard.dart';
 import 'package:flutter/material.dart';
 
-class Listacontatos extends StatelessWidget {
-  
+class Listacontatos extends StatefulWidget {
+  @override
+  _ListacontatosState createState() => _ListacontatosState();
+}
+
+class _ListacontatosState extends State<Listacontatos> {
+  List<Contato> contatos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _carregarContatos();
+  }
+
+  Future<void> _carregarContatos() async {
+    List<Contato> loadedContatos = await Contato.carregarContatos();
+    setState(() {
+      contatos = loadedContatos;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,10 +31,10 @@ class Listacontatos extends StatelessWidget {
         title: Row(
           children: [
             Icon(
-              Icons.contacts, 
+              Icons.contacts,
               color: Colors.white,
             ),
-            SizedBox(width: 8.0), 
+            SizedBox(width: 8.0),
             Text("Disk Contatos"),
           ],
         ),
@@ -22,11 +42,16 @@ class Listacontatos extends StatelessWidget {
         backgroundColor: Colors.lightBlue,
         foregroundColor: Colors.white,
       ),
-      body: Center(
-        child: Text(
-          "teste",
-          textAlign: TextAlign.center,
-        ),
+      body: ListView.builder(
+        itemCount: contatos.length,
+        itemBuilder: (context, index) {
+          final contato = contatos[index];
+          return ContatoCard(
+            nome: contato.nome,
+            telefone: contato.telefone,
+            email: contato.email,
+          );
+        },
       ),
       floatingActionButton: Container(
         width: 70.0,
@@ -36,7 +61,9 @@ class Listacontatos extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Cadastrocontatos()),
-            );
+            ).then((_) {
+              _carregarContatos(); 
+            });
           },
           child: Icon(
             Icons.add_circle_outline_rounded,

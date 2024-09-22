@@ -1,6 +1,5 @@
 import 'package:agenda_flutter/model/Contato.dart';
 import 'package:agenda_flutter/screens/listaContatos.dart';
-import 'package:agenda_flutter/utils/clearshared.dart';
 import 'package:flutter/material.dart';
 
 

@@ -100,6 +100,7 @@ class Cadastrocontatos extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text('Contato adicionado com sucesso!'),
                       ));
+                      Navigator.pop(context);
                     }
                   },
                   child: Text(
