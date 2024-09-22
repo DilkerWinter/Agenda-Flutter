@@ -56,13 +56,13 @@ class _ListacontatosState extends State<Listacontatos> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => AlterarContato(
-                    nome: contato.nome,
-                    email: contato.email,
-                    telefone: contato.telefone,
+                    antigoNome: contato.nome,
+                    antigoEmail: contato.email,
+                    antigoTelefone: contato.telefone,
                   ),
                 ),
               ).then((_) {
-                _carregarContatos(); // Adicione esta linha para recarregar os contatos
+                _carregarContatos();
               });
             },
           );

@@ -1,9 +1,12 @@
 import 'package:agenda_flutter/model/Contato.dart';
 import 'package:agenda_flutter/screens/listaContatos.dart';
+import 'package:agenda_flutter/utils/clearSharedPreferences.dart';
 import 'package:flutter/material.dart';
 
-
-void main(){
+void main() {
+  //Limpar a Memoria
+  //WidgetsFlutterBinding.ensureInitialized();
+  //clearSharedPreferences();
   runApp(Agenda());
 }
 

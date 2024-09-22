@@ -1,6 +1,7 @@
 import 'package:agenda_flutter/model/Contato.dart';
 import 'package:agenda_flutter/utils/validarInformacoes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Cadastrocontatos extends StatelessWidget {
   final TextEditingController _controllerNome = TextEditingController();
@@ -25,11 +26,10 @@ class Cadastrocontatos extends StatelessWidget {
         backgroundColor: Colors.lightBlue,
         foregroundColor: Colors.white,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start, // Alinha os textos à esquerda
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
@@ -49,6 +49,7 @@ class Cadastrocontatos extends StatelessWidget {
               controller: _controllerNome,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
+                hintText: "Bruno Winter",
               ),
             ),
             SizedBox(height: 16.0),
@@ -60,6 +61,7 @@ class Cadastrocontatos extends StatelessWidget {
               controller: _controllerEmail,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
+                hintText: "exemplo@gmail.com",
               ),
             ),
             SizedBox(height: 16.0),
@@ -68,14 +70,16 @@ class Cadastrocontatos extends StatelessWidget {
               style: TextStyle(fontSize: 16),
             ),
             TextField(
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(
+                    r'^[0-9()-. ]*$')), //limita os caracteres que podem ser inseridos
+              ],
               controller: _controllerTelefone,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
-              ),
+                  border: OutlineInputBorder(), hintText: "(00) 00000-0000"),
             ),
             SizedBox(height: 20.0),
             Center(
-              // Centraliza o botão
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -86,6 +90,8 @@ class Cadastrocontatos extends StatelessWidget {
                     String email = _controllerEmail.text;
                     String telefone = _controllerTelefone.text;
 
+                    bool nomeExistente = await validaNome(nome);
+
                     if (!validaInformacoes(nome, email, telefone)) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -94,8 +100,17 @@ class Cadastrocontatos extends StatelessWidget {
                           duration: Duration(seconds: 2),
                         ),
                       );
+                    } else if (nomeExistente) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              'Já existe um contato cadastrado com este nome.'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
                     } else {
-                      Contato contato = Contato(nome: nome, telefone: telefone, email: email);
+                      Contato contato =
+                          Contato(nome: nome, telefone: telefone, email: email);
                       Contato.adicionarContato(contato);
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text('Contato adicionado com sucesso!'),

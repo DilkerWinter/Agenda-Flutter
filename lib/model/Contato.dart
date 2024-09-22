@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Contato {
-  String _nome; 
+  String _nome;
   String _telefone;
   String _email;
 
@@ -50,11 +50,9 @@ class Contato {
     );
   }
 
-
   static Future<List<Contato>> carregarContatos() async {
-    
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     List<String>? contatosJson = prefs.getStringList('contatos');
 
     if (contatosJson != null) {
@@ -66,9 +64,9 @@ class Contato {
     }
   }
 
- static Future<void> adicionarContato(Contato novoContato) async {
+  static Future<void> adicionarContato(Contato novoContato) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     List<Contato> contatos = await carregarContatos();
 
     contatos.add(novoContato);
@@ -82,35 +80,70 @@ class Contato {
     await prefs.setStringList('contatos', contatosJson);
   }
 
-  static Future<void> alterarContato(String nomeAntigo, Contato contatoAtualizado) async {
-  try {
+  //Modificia o Contato
+  static Future<void> alterarContato(
+      String nomeAntigo, Contato contatoAtualizado) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      List<Contato> contatos = await carregarContatos();
+
+      int index = contatos.indexWhere((contato) => contato.nome == nomeAntigo);
+
+      if (index != -1) {
+        contatos[index] = contatoAtualizado;
+
+        contatos.sort((a, b) => a.nome.compareTo(b.nome));
+
+        List<String> contatosJson = contatos.map((contato) {
+          return jsonEncode(contato.toJson());
+        }).toList();
+
+        await prefs.setStringList('contatos', contatosJson);
+      } else {
+        print('Contato não encontrado com o nome: $nomeAntigo');
+      }
+    } catch (e) {
+      print('Erro ao alterar contato: $e');
+    }
+  }
+
+  static Future<Contato?> buscarContatoPorNome(String nome) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     List<Contato> contatos = await carregarContatos();
 
-    // Encontrar o índice do contato a ser alterado
-    int index = contatos.indexWhere((contato) => contato.nome == nomeAntigo);
+    Contato? contatoEncontrado = contatos.firstWhere(
+      (contato) => contato.nome.toLowerCase() == nome.toLowerCase(),
+      orElse: () => throw Exception('Contato não encontrado'),
+    );
 
-    if (index != -1) {
-      // Substituir o contato existente pelo novo
-      contatos[index] = contatoAtualizado;
-
-      // Ordenar a lista após a alteração
-      contatos.sort((a, b) => a.nome.compareTo(b.nome));
-
-      // Salvar a lista de contatos atualizada
-      List<String> contatosJson = contatos.map((contato) {
-        return jsonEncode(contato.toJson());
-      }).toList();
-
-      await prefs.setStringList('contatos', contatosJson);
-    } else {
-      print('Contato não encontrado com o nome: $nomeAntigo');
-    }
-  } catch (e) {
-    print('Erro ao alterar contato: $e');
+    return contatoEncontrado;
   }
-}
 
+  static Future<void> excluirContatoPorNome(String nome) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
 
+      List<Contato> contatos = await carregarContatos();
+
+      int index = contatos.indexWhere(
+          (contato) => contato.nome.toLowerCase() == nome.toLowerCase());
+
+      if (index != -1) {
+        contatos.removeAt(index);
+
+        List<String> contatosJson = contatos.map((contato) {
+          return jsonEncode(contato.toJson());
+        }).toList();
+
+        await prefs.setStringList('contatos', contatosJson);
+        print('Contato excluído: $nome');
+      } else {
+        print('Contato não encontrado com o nome: $nome');
+      }
+    } catch (e) {
+      print('Erro ao excluir contato: $e');
+    }
+  }
 }
