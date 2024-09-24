@@ -3,9 +3,13 @@
 Projeto feito para materia de Desenvolvimento Mobile, para a Faculdade.
 
 
-# Instalacao
+# Requisitos e Instalacao
 
-- 
+- Ter um dispositivo móvel para emular.
+- Flutter e Dart instalados.
+- Baixar as dependências com ``` flutter pub get ```.
+- Rodar a aplicação com ``` flutter run ```.
+
 
 # Imagens
 
@@ -19,12 +23,12 @@ Projeto feito para materia de Desenvolvimento Mobile, para a Faculdade.
 ## Tela de Editar Contato
 ![alt-img](img/editar.png)
 
-## Telas de confirmacoes
+## Telas de Confirmações
 
-Deletar
+### Deletar
 ![alt-img](img/delecao.png)
 
-Alterar
-![alt-img](img/flutter_04.png)
+### Editar
+![alt-img](img/editar.png)
 
 
