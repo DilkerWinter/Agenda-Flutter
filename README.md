@@ -1,14 +1,30 @@
-# Agenda 
+# Agenda de Contatos
 
-Projeto de Flutter para Desenvolvimento Mobile da faculdade
+Projeto feito para materia de Desenvolvimento Mobile, para a Faculdade.
 
-Armazena e Listagem de contatos com informacoes como: nome, email, telefone.
 
-## Imagens
+# Instalacao
 
-### Tela de Listagem
-![alt-img](img/lista.png)
+- 
 
-### Tela de Cadastro
-![alt-img](img/cadastro.png)
+# Imagens
+
+## Tela de Listagem de Contatos
+![alt-img](img/flutter_02.png)
+
+
+## Tela de Cadastro
+![alt-img](img/flutter_01.png)
+
+## Tela de Editar Contato
+![alt-img](img/editar.png)
+
+## Telas de confirmacoes
+
+Deletar
+![alt-img](img/delecao.png)
+
+Alterar
+![alt-img](img/flutter_04.png)
+
 

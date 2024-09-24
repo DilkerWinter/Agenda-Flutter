@@ -19,12 +19,6 @@ bool validaEmail(String email) {
   );
   bool emailValido = emailRegex.hasMatch(email);
 
-  if (emailValido) {
-    print("Email válido.");
-  } else {
-    print("Email inválido.");
-  }
-
   return emailValido;
 }
 
@@ -33,12 +27,6 @@ bool validaTelefone(String telefone) {
     r'^\(?\d{2}\)?[-.\s]?(\d{5}|\d{4})[-.\s]?\d{4}$',
   );
   bool telefoneValido = telefoneRegex.hasMatch(telefone);
-
-  if (telefoneValido) {
-    print("Telefone válido.");
-  } else {
-    print("Telefone inválido.");
-  }
 
   return telefoneValido;
 }

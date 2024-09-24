@@ -63,7 +63,7 @@ class AlterarContato extends StatelessWidget {
                 decoration: InputDecoration(
                     labelText: 'Telefone', labelStyle: TextStyle(fontSize: 16)),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -73,7 +73,7 @@ class AlterarContato extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Confirmação de Deleção'),
+                            title: Text('Confirmação'),
                             content: Text(
                                 'Tem certeza de que deseja deletar este contato?'),
                             actions: [
@@ -104,7 +104,8 @@ class AlterarContato extends StatelessWidget {
                         },
                       );
                     },
-                    child: Text('Deletar'),
+                    child: Text('Deletar',
+                    style: TextStyle(fontSize: 20),),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
@@ -176,7 +177,8 @@ class AlterarContato extends StatelessWidget {
                         );
                       }
                     },
-                    child: Text('Salvar'),
+                    child: Text('Salvar',
+                    style: TextStyle(fontSize: 20),),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,

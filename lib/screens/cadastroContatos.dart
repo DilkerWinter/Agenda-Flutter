@@ -49,7 +49,10 @@ class Cadastrocontatos extends StatelessWidget {
               controller: _controllerNome,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: "Bruno Winter",
+                hintText: "Nome Completo",
+                hintStyle: TextStyle(
+                  color: Colors.black26,
+                )
               ),
             ),
             SizedBox(height: 16.0),
@@ -62,6 +65,9 @@ class Cadastrocontatos extends StatelessWidget {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "exemplo@gmail.com",
+                hintStyle: TextStyle(
+                  color: Colors.black26,
+                )
               ),
             ),
             SizedBox(height: 16.0),
@@ -76,7 +82,12 @@ class Cadastrocontatos extends StatelessWidget {
               ],
               controller: _controllerTelefone,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: "(00) 00000-0000"),
+                  border: OutlineInputBorder(),
+                   hintText: "(00) 00000-0000",
+                   hintStyle: TextStyle(
+                  color: Colors.black26,
+                )
+                   ),
             ),
             SizedBox(height: 20.0),
             Center(
