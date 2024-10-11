@@ -1,13 +1,18 @@
+import 'package:agenda_flutter/controller/ContatoController.dart';
 import 'package:agenda_flutter/model/Contato.dart';
 import 'package:agenda_flutter/utils/validarInformacoes.dart';
 import 'package:flutter/material.dart';
 
 class AlterarContato extends StatelessWidget {
+  final int? antigoId;
   final String antigoNome;
   final String antigoEmail;
   final String antigoTelefone;
 
+  final contatoController = ContatoController();
+
   AlterarContato({
+    required this.antigoId,
     required this.antigoNome,
     required this.antigoEmail,
     required this.antigoTelefone,
@@ -85,7 +90,7 @@ class AlterarContato extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Contato.excluirContatoPorNome(antigoNome);
+                                  contatoController.removerContato(antigoId);
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
                                     content:
@@ -118,21 +123,15 @@ class AlterarContato extends StatelessWidget {
                       String novoEmail = emailController.text;
                       String novoTelefone = telefoneController.text;
 
-                      //Verifica se o nome foi alterado para nao dar conflito
-                      bool nomeJaExiste = await validaNome(novoNome);
-                      bool alterouNome = novoNome != antigoNome;
                       bool informacoesValidas =
                           validaInformacoes(novoNome, novoEmail, novoTelefone);
-                      if (!alterouNome) {
-                        nomeJaExiste = false;
-                      }
+                      
 
-                      print(informacoesValidas);
-                      if (!informacoesValidas || nomeJaExiste) {
+                      if (!informacoesValidas) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content:
-                                Text('Informações inválidas ou já existentes.'),
+                                Text('Informações inválidas'),
                             duration: Duration(seconds: 2),
                           ),
                         );
@@ -154,10 +153,11 @@ class AlterarContato extends StatelessWidget {
                                 TextButton(
                                   onPressed: () {
                                     Contato contato = Contato(
+                                        id: antigoId,
                                         nome: novoNome,
                                         email: novoEmail,
                                         telefone: novoTelefone);
-                                    Contato.alterarContato(antigoNome, contato);
+                                    contatoController.atualizarContato(contato);
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(SnackBar(
                                       content:

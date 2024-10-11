@@ -22,13 +22,3 @@ Projeto feito para materia de Desenvolvimento Mobile, para a Faculdade.
 
 ## Tela de Editar Contato
 ![alt-img](img/editar.png)
-
-## Telas de Confirmações
-
-### Deletar
-![alt-img](img/delecao.png)
-
-### Editar
-![alt-img](img/editar.png)
-
-

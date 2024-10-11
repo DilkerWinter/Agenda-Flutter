@@ -30,13 +30,3 @@ bool validaTelefone(String telefone) {
 
   return telefoneValido;
 }
-
-//verifica se o nome existe na memoria
-Future<bool> validaNome(String nome) async {
-  try {
-    Contato? contato = await Contato.buscarContatoPorNome(nome);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
