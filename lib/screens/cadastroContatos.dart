@@ -1,3 +1,4 @@
+import 'package:agenda_flutter/controller/ContatoController.dart';
 import 'package:agenda_flutter/model/Contato.dart';
 import 'package:agenda_flutter/utils/validarInformacoes.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ class Cadastrocontatos extends StatelessWidget {
   final TextEditingController _controllerNome = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerTelefone = TextEditingController();
+  final contatoController = ContatoController();
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +103,6 @@ class Cadastrocontatos extends StatelessWidget {
                     String email = _controllerEmail.text;
                     String telefone = _controllerTelefone.text;
 
-                    bool nomeExistente = await validaNome(nome);
 
                     if (!validaInformacoes(nome, email, telefone)) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -111,18 +112,10 @@ class Cadastrocontatos extends StatelessWidget {
                           duration: Duration(seconds: 2),
                         ),
                       );
-                    } else if (nomeExistente) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              'Já existe um contato cadastrado com este nome.'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
                     } else {
                       Contato contato =
                           Contato(nome: nome, telefone: telefone, email: email);
-                      Contato.adicionarContato(contato);
+                      contatoController.adicionarContato(contato);
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text('Contato adicionado com sucesso!'),
                       ));

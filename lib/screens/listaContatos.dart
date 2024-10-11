@@ -1,3 +1,4 @@
+import 'package:agenda_flutter/controller/ContatoController.dart';
 import 'package:agenda_flutter/model/Contato.dart';
 import 'package:agenda_flutter/screens/alterarContato.dart';
 import 'package:agenda_flutter/screens/cadastroContatos.dart';
@@ -11,6 +12,7 @@ class Listacontatos extends StatefulWidget {
 
 class _ListacontatosState extends State<Listacontatos> {
   List<Contato> contatos = [];
+  final contatoController = ContatoController();
 
   @override
   void initState() {
@@ -19,7 +21,7 @@ class _ListacontatosState extends State<Listacontatos> {
   }
 
   Future<void> _carregarContatos() async {
-    List<Contato> loadedContatos = await Contato.carregarContatos();
+    List<Contato> loadedContatos = await contatoController.getContatoOrdemAlfabetica();
     setState(() {
       contatos = loadedContatos;
     });
@@ -56,6 +58,7 @@ class _ListacontatosState extends State<Listacontatos> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => AlterarContato(
+                    antigoId: contato.id,
                     antigoNome: contato.nome,
                     antigoEmail: contato.email,
                     antigoTelefone: contato.telefone,
