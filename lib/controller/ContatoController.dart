@@ -1,3 +1,4 @@
+import 'package:agenda_flutter/utils/nomeUsuarioSharedPrefs.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:agenda_flutter/model/Contato.dart';
@@ -30,9 +31,13 @@ class ContatoController {
 
   Future<List<Contato>> getContatoOrdemAlfabetica() async {
     final db = await _dbService.database;
+    final int usuarioId = await recuperandoIdUsuario();
+
     final List<Map<String, dynamic>> maps = await db.query(
       _dbService.contatoTableName,
       orderBy: _dbService.contatoNomeColumnName, 
+      where: '${_dbService.contatoUsuarioIdColumnName} = ?',
+      whereArgs: [usuarioId]
     );
 
     return List.generate(maps.length, (i) {
