@@ -1,5 +1,6 @@
 import 'package:agenda_flutter/controller/ContatoController.dart';
 import 'package:agenda_flutter/model/Contato.dart';
+import 'package:agenda_flutter/utils/nomeUsuarioSharedPrefs.dart';
 import 'package:agenda_flutter/utils/validarInformacoes.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,8 @@ class AlterarContato extends StatelessWidget {
         backgroundColor: Colors.lightBlue,
         foregroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(  // Corrigido aqui
+      body: SingleChildScrollView(
+        // Corrigido aqui
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -109,8 +111,10 @@ class AlterarContato extends StatelessWidget {
                         },
                       );
                     },
-                    child: Text('Deletar',
-                    style: TextStyle(fontSize: 20),),
+                    child: Text(
+                      'Deletar',
+                      style: TextStyle(fontSize: 20),
+                    ),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
@@ -125,13 +129,11 @@ class AlterarContato extends StatelessWidget {
 
                       bool informacoesValidas =
                           validaInformacoes(novoNome, novoEmail, novoTelefone);
-                      
 
                       if (!informacoesValidas) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content:
-                                Text('Informações inválidas'),
+                            content: Text('Informações inválidas'),
                             duration: Duration(seconds: 2),
                           ),
                         );
@@ -151,12 +153,16 @@ class AlterarContato extends StatelessWidget {
                                   child: Text('Cancelar'),
                                 ),
                                 TextButton(
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    int usuarioId =
+                                        await recuperandoIdUsuario();
+
                                     Contato contato = Contato(
                                         id: antigoId,
                                         nome: novoNome,
                                         email: novoEmail,
-                                        telefone: novoTelefone);
+                                        telefone: novoTelefone,
+                                        usuarioId: usuarioId);
                                     contatoController.atualizarContato(contato);
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(SnackBar(
@@ -177,8 +183,10 @@ class AlterarContato extends StatelessWidget {
                         );
                       }
                     },
-                    child: Text('Salvar',
-                    style: TextStyle(fontSize: 20),),
+                    child: Text(
+                      'Salvar',
+                      style: TextStyle(fontSize: 20),
+                    ),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,

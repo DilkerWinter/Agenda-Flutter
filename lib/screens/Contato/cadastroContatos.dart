@@ -1,5 +1,6 @@
 import 'package:agenda_flutter/controller/ContatoController.dart';
 import 'package:agenda_flutter/model/Contato.dart';
+import 'package:agenda_flutter/utils/nomeUsuarioSharedPrefs.dart';
 import 'package:agenda_flutter/utils/validarInformacoes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -102,6 +103,7 @@ class Cadastrocontatos extends StatelessWidget {
                     String nome = _controllerNome.text;
                     String email = _controllerEmail.text;
                     String telefone = _controllerTelefone.text;
+                    
 
 
                     if (!validaInformacoes(nome, email, telefone)) {
@@ -113,8 +115,10 @@ class Cadastrocontatos extends StatelessWidget {
                         ),
                       );
                     } else {
+                      int usuarioId = await recuperandoIdUsuario();
+
                       Contato contato =
-                          Contato(nome: nome, telefone: telefone, email: email);
+                          Contato(nome: nome, telefone: telefone, email: email, usuarioId: usuarioId);
                       contatoController.adicionarContato(contato);
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text('Contato adicionado com sucesso!'),

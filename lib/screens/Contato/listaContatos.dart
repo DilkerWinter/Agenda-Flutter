@@ -1,9 +1,11 @@
 import 'package:agenda_flutter/controller/ContatoController.dart';
 import 'package:agenda_flutter/model/Contato.dart';
-import 'package:agenda_flutter/screens/alterarContato.dart';
-import 'package:agenda_flutter/screens/cadastroContatos.dart';
+import 'package:agenda_flutter/screens/Contato/alterarContato.dart';
+import 'package:agenda_flutter/screens/Contato/cadastroContatos.dart';
+import 'package:agenda_flutter/screens/Usuario/login.dart';
 import 'package:agenda_flutter/widget/contatoCard.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Listacontatos extends StatefulWidget {
   @override
@@ -21,7 +23,8 @@ class _ListacontatosState extends State<Listacontatos> {
   }
 
   Future<void> _carregarContatos() async {
-    List<Contato> loadedContatos = await contatoController.getContatoOrdemAlfabetica();
+    List<Contato> loadedContatos =
+        await contatoController.getContatoOrdemAlfabetica();
     setState(() {
       contatos = loadedContatos;
     });
@@ -44,6 +47,14 @@ class _ListacontatosState extends State<Listacontatos> {
         centerTitle: true,
         backgroundColor: Colors.lightBlue,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () async {
+              _showDialog(context);
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: contatos.length,
@@ -96,4 +107,36 @@ class _ListacontatosState extends State<Listacontatos> {
       ),
     );
   }
+}
+
+void _showDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Confirmar Saída"),
+        content: Text("Você realmente deseja deslogar da sua conta?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("Cancelar"),
+          ),
+          TextButton(
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.remove('nomeUsuario');
+              Navigator.pop(context);
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => Login()));
+            },
+            child: Text("Sair"),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red, foregroundColor: Colors.white),
+          ),
+        ],
+      );
+    },
+  );
 }

@@ -1,23 +1,25 @@
-import 'dart:convert';
-
 class Contato {
   int? id;
   String _nome;
   String _telefone;
   String _email;
+  int _usuarioId;
 
   Contato({
     this.id,
     required String nome,
     required String telefone,
     required String email,
+    required int usuarioId, 
   })  : _nome = nome,
         _telefone = telefone,
-        _email = email;
+        _email = email,
+        _usuarioId = usuarioId; 
 
   String get nome => _nome;
   String get telefone => _telefone;
   String get email => _email;
+  int get usuarioId => _usuarioId; 
 
   set nome(String value) {
     _nome = value;
@@ -31,8 +33,12 @@ class Contato {
     _email = value;
   }
 
+  set usuarioId(int value) {
+    _usuarioId = value; 
+  }
+
   @override
-  String toString() => 'nome: $_nome, telefone: $_telefone, email: $_email';
+  String toString() => 'nome: $_nome, telefone: $_telefone, email: $_email, usuarioId: $_usuarioId';
 
   Map<String, dynamic> toMap() {
     return {
@@ -40,6 +46,7 @@ class Contato {
       'nome': _nome,
       'telefone': _telefone,
       'email': _email,
+      'usuarioId': _usuarioId, 
     };
   }
 
@@ -49,6 +56,7 @@ class Contato {
       nome: map['nome'] as String,
       telefone: map['telefone'] as String,
       email: map['email'] as String,
+      usuarioId: map['usuarioId'] as int,
     );
   }
 }
