@@ -5,7 +5,7 @@ import 'package:agenda_flutter/screens/Contato/cadastroContatos.dart';
 import 'package:agenda_flutter/screens/Usuario/login.dart';
 import 'package:agenda_flutter/widget/contatoCard.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Listacontatos extends StatefulWidget {
   @override
@@ -125,8 +125,8 @@ void _showDialog(BuildContext context) {
           ),
           TextButton(
             onPressed: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              await prefs.remove('nomeUsuario');
+              FlutterSecureStorage secureStorage = FlutterSecureStorage();
+              await secureStorage.delete(key: 'nomeUsuario');
               Navigator.pop(context);
               Navigator.pushReplacement(
                   context, MaterialPageRoute(builder: (context) => Login()));

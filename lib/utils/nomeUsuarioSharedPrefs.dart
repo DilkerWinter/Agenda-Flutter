@@ -1,10 +1,11 @@
 import 'package:agenda_flutter/controller/UsuarioController.dart';
 import 'package:agenda_flutter/model/Usuario.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
 Future<String?> _getNomeUsuario() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getString('nomeUsuario'); 
+  return await secureStorage.read(key: 'nomeUsuario'); 
 }
 
 Future<int> recuperandoIdUsuario() async {
