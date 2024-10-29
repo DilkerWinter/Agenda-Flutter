@@ -5,6 +5,7 @@ import 'package:agenda_flutter/screens/Contato/listaContatos.dart';
 import 'package:agenda_flutter/screens/Usuario/login.dart';
 import 'package:agenda_flutter/service/DatabaseService.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -37,10 +38,10 @@ class Agenda extends StatelessWidget {
     );
   }
 
-  Future<bool> _isUsuarioLogado() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? nomeSalvo = prefs.getString('nomeUsuario');
-    return nomeSalvo != null  && nomeSalvo.isNotEmpty;
-  }
+Future<bool> isNomeUsuarioSalvo() async {
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+  String? nomeSalvo = await secureStorage.read(key: 'nomeUsuario');
+  return nomeSalvo != null && nomeSalvo.isNotEmpty;
+}
 }
 

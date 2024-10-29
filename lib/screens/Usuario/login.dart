@@ -6,6 +6,7 @@ import 'package:agenda_flutter/service/DatabaseService.dart';
 import 'package:agenda_flutter/utils/encryptarSenhas.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -85,8 +86,8 @@ class Login extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Login bem-sucedido!")),
                     );
-                    SharedPreferences prefs = await SharedPreferences.getInstance();
-                    await prefs.setString('nomeUsuario', usuarioEncontrado.nome);
+                    FlutterSecureStorage secureStorage = FlutterSecureStorage();
+                    await secureStorage.write(key: 'nomeUsuario', value: usuarioEncontrado.nome);
                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Listacontatos()), (Route<dynamic> route) => false,
                     );
                   } else {
